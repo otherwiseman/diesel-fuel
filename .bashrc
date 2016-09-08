@@ -3,7 +3,7 @@
 
 [ `which transset` ] && transset -a .97 &> /dev/null
 
-shopt -s cdable_vars cmdhist histappend dirspell cdspell checkwinsize
+shopt -s cdable_vars cmdhist histappend cdspell checkwinsize
 
 OS=`uname`
 
