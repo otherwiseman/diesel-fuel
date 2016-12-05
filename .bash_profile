@@ -196,11 +196,4 @@ httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grab
 #   mount -t msdos /dev/disk1s1 /Volumes/Foo
 #   mount -t hfs /dev/disk1s1 /Volumes/Foo
 
-#   to create a file of a given size: /usr/sbin/mkfile or /usr/bin/hdiutil
-#   ---------------------------------------
-#   e.g.: mkfile 10m 10MB.dat
-#   e.g.: hdiutil create -size 10m 10MB.dmg
-#   the above create files that are almost all zeros - if random bytes are desired
-#   then use: ~/Dev/Perl/randBytes 1048576 > 10MB.dat
 
-export PATH="/usr/local/mysql/bin:$PATH"
