@@ -5,30 +5,22 @@ if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
 
 #   Set Paths
 #   ------------------------------------------------------------
-export PATH="/usr/local/mysql/bin:$PATH"
-export PATH=${PATH}:/usr/local/mysql/bin/
-bind "set completion-ignore-case on"
-bind "set show-all-if-ambiguous on"
-alias pycharm="/Applications/PyCharm.app/Contents/MacOS/pycharm"
+export PATH=/usr/local/bin:$PATH
 export BLOCKSIZE=1k
-#   Add color to terminal
-#   (this is all commented out as I use Mac Terminal Profiles)
-#   from http://osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
-#   ------------------------------------------------------------
-#   export CLICOLOR=1
-#   export LSCOLORS=ExFxBxDxCxegedabagacad
 
 #   -----------------------------
 #   2.  MAKE TERMINAL BETTER
 #   -----------------------------
 
+bind "set completion-ignore-case on"
+bind "set show-all-if-ambiguous on"
 alias cp='cp -iv'                           # Preferred 'cp' implementation
 alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
 alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
 alias less='less -FSRXc'                    # Preferred 'less' implementation
 alias ..='cd ../'                           # Go back 1 directory level
-cd () { builtin cd "$@"; ll -a; }               # Always list directory contents upon 'cd'
+cd () { builtin cd "$@"; ls -l; }           # Always list directory contents upon 'cd'
 alias ...='cd ../../'                       # Go back 2 directory levels
 alias .3='cd ../../../'                     # Go back 3 directory levels
 alias .4='cd ../../../../'                  # Go back 4 directory levels
@@ -64,7 +56,6 @@ ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name end
 #   spotlight: Search for a file using MacOS Spotlight's metadata
 #   -----------------------------------------------------------
     spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
-
 
 #   ---------------------------
 #   5.  PROCESS MANAGEMENT
@@ -117,83 +108,3 @@ alias ipInfo0='ipconfig getpacket en0'              # ipInfo0:      Get info on 
 alias ipInfo1='ipconfig getpacket en1'              # ipInfo1:      Get info on connections for en1
 alias openPorts='sudo lsof -i | grep LISTEN'        # openPorts:    All listening connections
 alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rules inc/ blocked IPs
-
-#   ii:  display useful host related informaton
-#   -------------------------------------------------------------------
-    ii() {
-        echo -e "\nYou are logged on ${RED}$HOST"
-        echo -e "\nAdditionnal information:$NC " ; uname -a
-        echo -e "\n${RED}Users logged on:$NC " ; w -h
-        echo -e "\n${RED}Current date :$NC " ; date
-        echo -e "\n${RED}Machine stats :$NC " ; uptime
-        echo -e "\n${RED}Current network location :$NC " ; scselect
-        echo -e "\n${RED}Public facing IP Address :$NC " ;myip
-        #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
-        echo
-    }
-
-
-#   ---------------------------------------
-#   7.  SYSTEMS OPERATIONS & INFORMATION
-#   ---------------------------------------
-
-alias mountReadWrite='/sbin/mount -uw /'    # mountReadWrite:   For use when booted into single-user
-
-#   cleanupDS:  Recursively delete .DS_Store files
-#   -------------------------------------------------------------------
-    alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
-
-#   finderShowHidden:   Show hidden files in Finder
-#   finderHideHidden:   Hide hidden files in Finder
-#   -------------------------------------------------------------------
-    alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
-    alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
-
-#   cleanupLS:  Clean up LaunchServices to remove duplicates in the "Open With" menu
-#   -----------------------------------------------------------------------------------
-    alias cleanupLS="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
-
-#    screensaverDesktop: Run a screensaver on the Desktop
-#   -----------------------------------------------------------------------------------
-    alias screensaverDesktop='/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine -background'
-
-#   ---------------------------------------
-#   8.  WEB DEVELOPMENT
-#   ---------------------------------------
-
-alias apacheEdit='sudo edit /etc/httpd/httpd.conf'      # apacheEdit:       Edit httpd.conf
-alias apacheRestart='sudo apachectl graceful'           # apacheRestart:    Restart Apache
-alias editHosts='sudo edit /etc/hosts'                  # editHosts:        Edit /etc/hosts file
-alias herr='tail /var/log/httpd/error_log'              # herr:             Tails HTTP error logs
-alias apacheLogs="less +F /var/log/apache2/error_log"   # Apachelogs:   Shows apache error logs
-httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grabs headers from web page
-
-#   httpDebug:  Download a web page and show info on what took time
-#   -------------------------------------------------------------------
-    httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n" ; }
-
-
-#   ---------------------------------------
-#   9.  REMINDERS & NOTES
-#   ---------------------------------------
-
-#   remove_disk: spin down unneeded disk
-#   ---------------------------------------
-#   diskutil eject /dev/disk1s3
-
-#   to change the password on an encrypted disk image:
-#   ---------------------------------------
-#   hdiutil chpass /path/to/the/diskimage
-
-#   to mount a read-only disk image as read-write:
-#   ---------------------------------------
-#   hdiutil attach example.dmg -shadow /tmp/example.shadow -noverify
-
-#   mounting a removable drive (of type msdos or hfs)
-#   ---------------------------------------
-#   mkdir /Volumes/Foo
-#   ls /dev/disk*   to find out the device to use in the mount command)
-#   mount -t msdos /dev/disk1s1 /Volumes/Foo
-#   mount -t hfs /dev/disk1s1 /Volumes/Foo
-
-
